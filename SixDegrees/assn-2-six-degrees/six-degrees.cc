@@ -52,12 +52,14 @@ void generateShortestPath(string source, string target, const imdb& db)
     partialPaths.pop_front();
     string actorName = actorPath.getLastPlayer();
     db.getCredits(actorName,actorFilms);
+    
     for(int i = 0; i < actorFilms.size(); i++){
       set<film>::iterator it = previouslySeenFilms.find(actorFilms[i]);
       if(it == previouslySeenFilms.end()){
 	//not see film yet
 	previouslySeenFilms.insert(actorFilms[i]);
 	db.getCast(actorFilms[i],cast);
+	
 	for(int j = 0; j < cast.size(); j++){
 	  set<string>::iterator castIt = previouslySeenActors.find(cast[j]);
 	  if(castIt == previouslySeenActors.end()){
@@ -93,7 +95,7 @@ void generateShortestPath(string source, string target, const imdb& db)
  */
 int main(int argc, const char *argv[])
 {
-  imdb db(determinePathToData("/home/stefan/Downloads/SixDegrees/assn-2-six-degrees-data/little-endian")); // inlined in imdb-utils.h
+  imdb db(determinePathToData("/usr/SixDegrees/assn-2-six-degrees-data/little-endian")); // inlined in imdb-utils.h
   if (!db.good()) {
     cout << "Failed to properly initialize the imdb database." << endl;
     cout << "Please check to make sure the source files exist and that you have permission to read them." << endl;
